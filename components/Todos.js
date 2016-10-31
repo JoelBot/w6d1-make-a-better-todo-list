@@ -21,78 +21,98 @@ class Todos extends Component {  // creating class of your component name.  This
     }
     componentDidMount() {
         console.log('mounted')
-        localStorage.setItem('this','sucks')
-        console.log(myStorage)
-        var getStorage = myStorage.getItem('todos')
-        console.log(getStorage)
-        var item = JSON.parse( localStorage.getItem( this ) )
-        console.log(item)
-    //     JSON.parse(getStorage, (object, value) => typeof value === 'object'? value: value     // return everything else unchanged
-    // );
-    // console.log(getStorage)
-    //   this.setState(myStorage)
-    // this.setState({
-    //     todos: myStorage.getItem("todos")
-    // })
-}
-componentWillUnmount() {
-    console.log('unmounted')
-}
-typing(e) { // react is doing a lot of magic
-    this.setState({
-        newTodo: e.target.value // can add .toUpperCase() if you'd like.  everycharacter comes through this.
-    })
-}
 
-enter(e) {
-    if (e.key === 'Enter') {
-        let updatedTodos = this.state.todos // This is just utating the original
-        // this.state.newTodo = ''
-        updatedTodos.push({
-            text: e.target.value,
-            done: false
-        })
+        // test, take no offense
+        var thisThing = {
+            what: 'this sucks',
+            why: 'local storage is hard'
+        }
+        // localStorage.setItem('this','sucks')
+        var memories = localStorage.getItem('memories') ? JSON.parse(localStorage.getItem('memories')) : []
+        memories.push(thisThing)
+        localStorage.setItem('memories', JSON.stringify(memories))
+
+        console.log(localStorage.getItem('memories'))
+        todos = localStorage.getItem('todos')
+        todos = JSON.parse(todos)
+
+        if (todos != null) {
+            this.setState({ //holy poop it worked.
+                todos: todos
+            })
+        }
+        console.log(todos)
+
+        // console.log(myStorage)
+        // var getStorage = JSON.parse(myStorage.getItem('this'))
+        // console.log(getStorage)
+        //     JSON.parse(getStorage, (object, value) => typeof value === 'object'? value: value     // return everything else unchanged
+        // );
+        // console.log(getStorage)
+        //   this.setState(myStorage)
+        // this.setState({
+        //     todos: myStorage.getItem("todos")
+        // })
+    }
+    componentWillUnmount() {
+        console.log('unmounted')
+    }
+    typing(e) { // react is doing a lot of magic
         this.setState({
-            newTodo: '',
+            newTodo: e.target.value // can add .toUpperCase() if you'd like.  everycharacter comes through this.
+        })
+    }
+
+    enter(e) {
+        if (e.key === 'Enter') {
+            let updatedTodos = this.state.todos // This is just utating the original
+            // this.state.newTodo = ''
+            updatedTodos.push({
+                text: e.target.value,
+                done: false
+            })
+            this.setState({
+                newTodo: '',
+                todos: updatedTodos
+            })
+            console.log(updatedTodos)
+            localStorage.setItem('todos', JSON.stringify(updatedTodos)) // set local storage to updated todos
+            // localStorage.setItem('memories', JSON.stringify(memories))
+        }
+    }
+
+    markDone(i) {
+        let updatedTodos = this.state.todos // making copy of todos
+
+        updatedTodos[i].done = !updatedTodos[i].done // same as below and better than below
+        // if (updatedTodos[i].done === false) {
+        //     updatedTodos[i].done = true
+        // }
+        // else {
+        //     updatedTodos[i].done = false
+        // }
+
+        this.setState({
             todos: updatedTodos
         })
-        console.log(updatedTodos)
-        myStorage.setItem('todos', updatedTodos) // set local storage to updated todos
     }
-}
 
-markDone(i) {
-    let updatedTodos = this.state.todos // making copy of todos
+    render() {  // Have to have a render for stateful class and has to return JSX code.
+        const TodoItems = this.state.todos.map((todo, i) => {
+            return <TodoItem data={todo} key={i} markDone={() => this.markDone(i)} />  // markDone arrow function runs  the code when onClick checks the box.
+        })
 
-    updatedTodos[i].done = !updatedTodos[i].done // same as below and better than below
-    // if (updatedTodos[i].done === false) {
-    //     updatedTodos[i].done = true
-    // }
-    // else {
-    //     updatedTodos[i].done = false
-    // }
+        return (
+            <div>
+            <br />
+            <input type="text" className="form-control" value={this.state.newTodo} onChange={this.typing} onKeyPress={this.enter}/>
+            <ul className="list-group">
+            {TodoItems}
+            </ul>
+            </div>
+        )
 
-    this.setState({
-        todos: updatedTodos
-    })
-}
-
-render() {  // Have to have a render for stateful class and has to return JSX code.
-    const TodoItems = this.state.todos.map((todo, i) => {
-        return <TodoItem data={todo} key={i} markDone={() => this.markDone(i)} />  // markDone arrow function runs  the code when onClick checks the box.
-    })
-
-    return (
-        <div>
-        <br />
-        <input type="text" className="form-control" value={this.state.newTodo} onChange={this.typing} onKeyPress={this.enter}/>
-        <ul className="list-group">
-        {TodoItems}
-        </ul>
-        </div>
-    )
-
-}
+    }
 }
 
 // console.log(myStorage)

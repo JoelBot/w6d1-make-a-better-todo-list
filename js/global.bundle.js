@@ -21500,12 +21500,31 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            console.log('mounted');
-	            localStorage.setItem('this', 'sucks');
-	            console.log(myStorage);
-	            var getStorage = myStorage.getItem('todos');
-	            console.log(getStorage);
-	            var item = JSON.parse(localStorage.getItem(this));
-	            console.log(item);
+
+	            // test, take no offense
+	            var thisThing = {
+	                what: 'this sucks',
+	                why: 'local storage is hard'
+	            };
+	            // localStorage.setItem('this','sucks')
+	            var memories = localStorage.getItem('memories') ? JSON.parse(localStorage.getItem('memories')) : [];
+	            memories.push(thisThing);
+	            localStorage.setItem('memories', JSON.stringify(memories));
+
+	            console.log(localStorage.getItem('memories'));
+	            todos = localStorage.getItem('todos');
+	            todos = JSON.parse(todos);
+
+	            if (todos != null) {
+	                this.setState({ //holy poop it worked.
+	                    todos: todos
+	                });
+	            }
+	            console.log(todos);
+
+	            // console.log(myStorage)
+	            // var getStorage = JSON.parse(myStorage.getItem('this'))
+	            // console.log(getStorage)
 	            //     JSON.parse(getStorage, (object, value) => typeof value === 'object'? value: value     // return everything else unchanged
 	            // );
 	            // console.log(getStorage)
@@ -21542,7 +21561,8 @@
 	                    todos: updatedTodos
 	                });
 	                console.log(updatedTodos);
-	                myStorage.setItem('todos', updatedTodos); // set local storage to updated todos
+	                localStorage.setItem('todos', JSON.stringify(updatedTodos)); // set local storage to updated todos
+	                // localStorage.setItem('memories', JSON.stringify(memories))
 	            }
 	        }
 	    }, {
