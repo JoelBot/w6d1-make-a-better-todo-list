@@ -1,0 +1,53 @@
+/* Coolors Exported Palette - coolors.co/247ba0-70c1b3-b2dbbf-f3ffbd-ff1654 */
+/* HSL */
+/* RGB */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+}
+
+body {
+  background-color: #70c1b3;
+}
+
+.btn {
+  width: 15vw;
+  border-radius: 25px;
+}
+
+.btn-success {
+  background-color: #ff1654;
+}
+
+.panel {
+  background-color: #247ba0;
+  border-radius: 25px;
+}
+
+.panel-body {
+  padding-bottom: 0;
+}
+
+.panel-heading {
+  border-radius: 25px;
+}
+
+.todo-item {
+  border: 10px solid #b2dbbf;
+  border-radius: 25px;
+  margin-bottom: 7px;
+  margin-top: 7px;
+  background-color: #247ba0;
+  color: white;
+}
+
+#logo {
+  width: 30px;
+}
+
+.inputFields {
+  display: inline-block;
+}
