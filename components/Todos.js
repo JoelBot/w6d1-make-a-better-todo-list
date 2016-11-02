@@ -10,6 +10,7 @@ class Todos extends Component {  // creating class of your component name.  This
         this.typing = this.typing.bind(this) // This is boilerplate stuff for react that binds this
         this.enter = this.enter.bind(this)
         this.markDone = this.markDone.bind(this)
+        this.updateTodos = this.updateTodos.bind(this)
         this.state = { // this is creating a placeholder to keep track of data (or state) so it can be used later.
             newTodo: '', // newtodo is empty string.  All text being typed in input field as it is being typed.  Have to connect the connection between this and the field.
             todos: [] // todos list that have already been added
@@ -36,7 +37,8 @@ class Todos extends Component {  // creating class of your component name.  This
         todos = localStorage.getItem('todos')
         todos = JSON.parse(todos)
 
-        if (todos != null) {
+        // if (todos != null) {
+        if (todos) {
             this.setState({ //holy poop it worked.
                 todos: todos
             })
@@ -71,16 +73,25 @@ class Todos extends Component {  // creating class of your component name.  This
                 text: e.target.value,
                 done: false
             })
-            this.setState({
-                newTodo: '',
-                todos: updatedTodos
-            })
-            console.log(updatedTodos)
-            localStorage.setItem('todos', JSON.stringify(updatedTodos)) // set local storage to updated todos
+            updatedTodos(updatedTodos)
+            // this.setState({
+            //     newTodo: '',
+            //     todos: updatedTodos
+            // })
+            // console.log(updatedTodos)
+            // localStorage.setItem('todos', JSON.stringify(updatedTodos)) // set local storage to updated todos
             // localStorage.setItem('memories', JSON.stringify(memories))
         }
     }
 
+    updateTodos(updatedTodos) {
+        this.setState({
+            newTodo: '',
+            todos: updatedTodos
+        })
+        console.log(updatedTodos)
+        localStorage.setItem('todos', JSON.stringify(updatedTodos))
+    }
     markDone(i) {
         let updatedTodos = this.state.todos // making copy of todos
 
